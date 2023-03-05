@@ -1,36 +1,95 @@
-// useEffect 예제1. 
-
-import React from "react";
-import UseEffect from "./UseEffect";
+// useRef() 와 useEffect() 예제 
+import React, {useEffect, useRef} from "react";
+import './App.css';
 
 function App(){
+  const inputRef = useRef()
+
+  useEffect(()=>{
+    console.log(inputRef);
+    inputRef.current.focus();
+   }, []
+  )
+
+  const loginAlert= () =>{
+    alert('Welcome! ${inputRef.current.value}');
+    inputRef.current.focus();
+  }
 
   return(
-    <UseEffect/>
+   <div className="App"> 
+     <header className="App-header">
+        <input   ref={inputRef} type="text" placeholder="id"/>
+        <input  type="text" placeholder="password"/>
+        <button onClick={loginAlert}>Login</button>
+     </header>
+   </div>
   )
+
 }
 
 export default App;
 
 
 
-// import React,{useState, useRef} from "react";
+
+
+// useEffect 예제2. 
+
+// import React from "react";
+// import Number from "./Number";
+
+// function App(){
+
+//   return(
+//     <Number/>
+//   )
+
+// }
+
+// export default App;
+
+
+
+// useEffect 예제1. 
+
+// import React from "react";
+// import UseEffect from "./UseEffect";
+
+// function App(){
+
+//   return(
+//     <UseEffect/>
+//   )
+// }
+
+// export default App;
+
+
+// useMemo(), useCallback(), React.memo() 예제 
+// import React,{useState, useRef, useMemo, useCallback} from "react";
 // import UserList from './UserList';
 // import ArrayAdd from './ArrayAdd';
 
 // function App(){
 
+//   function countActiveUsers(users){
+//     console.log("빨간색의 활성상태 유저명수 계산중...")
+//     return users.filter(user=> user.active).length;
+//   }
+
 //   const [inputs, setInputs] = useState({username: "", email:""})
 //   const{username, email} = inputs;
  
-//   const handleInputChange = e => {
-//       // e.target은 onChange이벤트가 설정된 input태그를 가리킴
-//       const {name, value} = e.target; 
-//       setInputs({
-//         ...inputs,
-//         [name]: value 
-//       })
-//   }
+//   const handleInputChange = useCallback( e => {
+//           // e.target은 onChange이벤트가 설정된 input태그를 가리킴
+//           const {name, value} = e.target; 
+//           setInputs({
+//             ...inputs,
+//             [name]: value 
+//           })
+//          }, [inputs]
+//   )
 
 //   const [users, setUsers] = useState([
 //     { 
@@ -55,29 +114,43 @@ export default App;
 //   ]); 
 
 //   const nextId =useRef(4)
-//   const handleCreateClick = ()=>{
-//     const user = {
-//       id: nextId.current,
-//       username,
-//       email
-//     }
 
-//   setUsers(users.concat(user))
-//   setInputs({
-//     username: "",
-//     email: ""
-//   })  
- 
-//   nextId.current +=1;
-//   }
+  // useCallback 을 쓰는 이유  (= 함수 재사용과 관련 !! )
+  // : useCallback 을 사용하지 않으면 컴포넌트가 리렌더링 될때마다, 함수들이 새로만들어짐. 
+  //  그러나 useCallback 을 사용하게 되면 한번 만든 함수를 필요할때만 새로만들고 (재사용이 가능해진다!) - 최적화
 
-//  const handleDeleteClick = id =>{
-//   setUsers(users.filter(user => user.id!==id));
-//  }
+//   const handleCreateClick = useCallback(
+//       ()=>{
+//           const user = {
+//             id: nextId.current,
+//             username,
+//             email
+//           }
+
+         
+//         // setUsers([...users, user])  
+//         setUsers(users => users.concat(user))
+
+//         setInputs({
+//             username: "",
+//             email: ""
+//         })  
+      
+//         nextId.current +=1;
+//     } , [ username, email]
+//   )
+
+//   const handleDeleteClick = useCallback( id => {
+//               setUsers(users.filter(user => user.id!==id));
+//             }, [users]
+
+//  )
  
-//  const handleToggleClick = (id) => { 
-//         setUsers(users.map( user => user.id===id?{...user, active: !user.active}:user)) 
-//  }
+//  const handleToggleClick = useCallback( (id) => { 
+//             setUsers(users.map( user => user.id===id?{...user, active: !user.active}:user)) 
+//              } , [users]
+//  )
+//  const count = useMemo(()=>countActiveUsers(users),[users]);
 
 //  return(
 //   <>
@@ -89,6 +162,7 @@ export default App;
 //     />
 
 //     <UserList propUsers={users} onDelete={handleDeleteClick} toggleClick={handleToggleClick}/>
+//     <div> 활성사용자 수 : {count} </div>
 //   </> 
 //  )
 // }
