@@ -1,36 +1,56 @@
-// useRef() 와 useEffect() 예제 
-import React, {useEffect, useRef} from "react";
-import './App.css';
+// [MathQuiz] - useRef , useState 연습
 
+import React from "react";
+import MathQuiz from "./MathQuiz";
+import "./App.css";
 function App(){
-  const inputRef = useRef()
 
-  useEffect(()=>{
-    console.log(inputRef);
-    inputRef.current.focus();
-   }, []
-  )
-
-  const loginAlert= () =>{
-    alert('Welcome! ${inputRef.current.value}');
-    inputRef.current.focus();
-  }
-
-  return(
-   <div className="App"> 
-     <header className="App-header">
-        <input   ref={inputRef} type="text" placeholder="id"/>
-        <input  type="text" placeholder="password"/>
-        <button onClick={loginAlert}>Login</button>
-     </header>
-   </div>
-  )
+   return(
+    <MathQuiz/>
+   )
 
 }
 
 export default App;
 
 
+
+
+
+
+
+
+// // useRef() 와 useEffect() 예제 
+// import React, {useEffect, useRef} from "react";
+// import './App.css';
+
+// function App(){
+//   const inputRef = useRef()
+
+//   useEffect(()=>{
+//      console.log(inputRef);
+//     inputRef.current.focus();
+//    }, []  // 2. [] 의미:  웹사이트에 들어오자마자 첫화면에서 렌더링될때 id 인풋창에 포커스가 된상태로 뜨게 추가구현 
+//   )
+
+//   const loginAlert= () =>{
+//     alert('Welcome!');
+//     inputRef.current.focus(); // 1. useEffect()함수없이, 즉 주석처리후 useRef()만쓰면 alert팝업창 확인누른후에만 포커스발생! 
+//   }
+
+//   return(
+//    <div className="App"> 
+//      <header className="App-header">
+//         <input  ref={inputRef}  type="text" placeholder="id"/>
+//         <input   type="text" placeholder="password"/>
+//         <button onClick={loginAlert}>Login</button>
+//      </header>
+//    </div>
+//   )
+
+// }
+
+// export default App;
 
 
 
