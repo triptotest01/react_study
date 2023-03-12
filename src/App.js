@@ -1,22 +1,22 @@
-import React from "react";
-import ReducerCounter from "./ReducerCounter";
+// import React from "react";
+// import ReducerCounter from "./ReducerCounter";
 
 
-function App(){
+// function App(){
 
-  return(
-    <div>
+//   return(
+//     <div>
     
-      <ReducerCounter />
-      <ReducerCounter step={1} min={-3} max={5}/>
-      <ReducerCounter step={5} min={-10} max={10}/>
+//       <ReducerCounter />
+//       <ReducerCounter step={1} min={-3} max={5}/>
+//       <ReducerCounter step={5} min={-10} max={10}/>
 
-    </div>
-  )
+//     </div>
+//   )
 
-}
+// }
 
-export default App;
+// export default App;
 
 
 
