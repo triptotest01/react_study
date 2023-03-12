@@ -64,7 +64,7 @@ function Board() {
       </button>
     );
   }
-  // 위 버튼태그에 클릭이벤트시 selectSquare 파라미터 square가 index가 된다. 
+  // 위 버튼태그에 클릭이벤트시 selectSquare 파라미터 square가 index가
   function selectSquare(square) {
     dispatch({ type: "SELECT_SQUARE", square });
   }
