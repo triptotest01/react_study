@@ -1,17 +1,47 @@
-// [MathQuiz] - useRef , useState 연습
-
 import React from "react";
-import MathQuiz from "./MathQuiz";
-import "./App.css";
+import ReducerCounter from "./ReducerCounter";
+
+
 function App(){
 
-   return(
-    <MathQuiz/>
-   )
+  return(
+    <div>
+    
+      <ReducerCounter />
+      <ReducerCounter step={1} min={-3} max={5}/>
+      <ReducerCounter step={5} min={-10} max={10}/>
+
+    </div>
+  )
 
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+// // [MathQuiz] - useRef , useState 연습
+
+// import React from "react";
+// import MathQuiz from "./MathQuiz";
+// import "./App.css";
+// function App(){
+
+//    return(
+//     <MathQuiz/>
+//    )
+
+// }
+
+// export default App;
 
 
 
