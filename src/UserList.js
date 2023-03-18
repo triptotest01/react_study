@@ -30,13 +30,13 @@ function User({PropUser, onDeleteClick, onToggleClick}){
 }
 
 
-function UserList({propUsers, onDelete, toggleClick}){
+function UserList({propUsers, deleteClick, toggleClick}){
   // console.log(propUsers)
  return(
   <div>
                     {/* User 라는 하위컴포넌트(파라미터)에 PropUser, key, onDeleteClick 라는 props 이름으로 전송  */}
                     {/* 화살표함수의 축약형 */}
-    {propUsers.map( u => (<User PropUser={u} key={u.id} onDeleteClick={onDelete}  onToggleClick={toggleClick}/>) )
+    {propUsers.map( u => (<User PropUser={u} key={u.id} onDeleteClick={deleteClick}  onToggleClick={toggleClick}/>) )
     }
 
   </div>

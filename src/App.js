@@ -1,17 +1,14 @@
-import React from 'react';
-import Game from './Game';
+// import React from 'react';
+// import Game from './Game';
 
-function App(){
+// function App(){
 
-  return(
-    <Game/>
-  )
-}
+//   return(
+//     <Game/>
+//   )
+// }
 
-export default App
-
-
-
+// export default App
 
 
 
@@ -138,7 +135,126 @@ export default App
 // export default App;
 
 
-// useMemo(), useCallback(), React.memo() 예제 
+
+
+
+
+
+
+//  [UerList, CreateUser구현  - 2. useReducer 함수로 구현 
+
+
+import React, { useRef, useCallback, useReducer } from "react";
+import UserList from "./UserList";
+import ArrayAdd from "./ArrayAdd";
+
+
+ const initialState = {
+    inputs: {username:"", email:""},
+    users:[{id: 1,username: 'user1',email: 'user1@gmail.com', active: true},
+           {id: 2,username: 'user2',email: 'user2@gmail.com',active: false},
+           {id: 3,username: 'user3',email: 'user3@gmail.com',active: false}
+          ]
+  }
+
+ function reducer(state, action){
+  switch(action.type){
+    case 'CHANGE_INPUT':
+      return{ ...state, 
+              inputs:{...state.inputs, [action.name]: action.value}
+            }
+    case 'CREATE_USER':
+        return{ inputs: initialState.inputs,
+                users: state.users.concat(action.user)
+              }
+    case 'TOGGLE_USER':
+      return{ ...state,
+              users: state.users.map(user=>
+                                   user.id===action.id?{...user, active:!user.active} : user
+                                )
+            } 
+    case 'REMOVE_USER':
+      return{ ...state, users: state.users.filter(user => user.id !==action.id )
+      };
+    default: 
+      return state;            
+  };
+ }
+
+ function App(){
+
+  const [state, dispatch] =useReducer(reducer, initialState);
+  const nextId =useRef(4);
+  const {users} =state;
+  const {username,email} =state.inputs;
+
+
+  const handleInputChange = useCallback(e=>
+    {
+    const {name, value} = e.target;
+    dispatch({
+      type: 'CHANGE_INPUT',
+      name,
+      value
+    })
+   }, 
+   [])
+
+   const handleCreateClick  = useCallback(() => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email
+      }
+    });
+    nextId.current+= 1;
+  }, [username, email]);
+
+  const handleToggleClick = useCallback( id =>{
+      dispatch({
+        type: 'TOGGLE_USER',
+        id
+      })
+  },[])
+
+
+  const handleDeleteClick =useCallback( id =>{
+    dispatch({
+      type: 'REMOVE_USER',
+      id
+    })
+  }, [])
+
+  return(
+    <>
+      <ArrayAdd 
+      usename={username}
+      email={email}
+      onInputChange ={handleInputChange}
+      onCreateClick={handleCreateClick}
+      />
+      <UserList propUsers={users} toggleClick={handleToggleClick} deleteClick={handleDeleteClick}/>
+      
+    
+    </>
+  )
+
+}
+
+
+export default App;
+
+
+
+
+
+
+
+
+//  [UerList, CreateUser구현  - 1. useState 함수로 구현 
+// // useMemo(), useCallback(), React.memo() 예제 
 // import React,{useState, useRef, useMemo, useCallback} from "react";
 // import UserList from './UserList';
 // import ArrayAdd from './ArrayAdd';
@@ -187,9 +303,9 @@ export default App
 
 //   const nextId =useRef(4)
 
-  // useCallback 을 쓰는 이유  (= 함수 재사용과 관련 !! )
-  // : useCallback 을 사용하지 않으면 컴포넌트가 리렌더링 될때마다, 함수들이 새로만들어짐. 
-  //  그러나 useCallback 을 사용하게 되면 한번 만든 함수를 필요할때만 새로만들고 (재사용이 가능해진다!) - 최적화
+//   // useCallback 을 쓰는 이유  (= 함수 재사용과 관련 !! )
+//   // : useCallback 을 사용하지 않으면 컴포넌트가 리렌더링 될때마다, 함수들이 새로만들어짐. 
+//   //  그러나 useCallback 을 사용하게 되면 한번 만든 함수를 필요할때만 새로만들고 (재사용이 가능해진다!) - 최적화
 
 //   const handleCreateClick = useCallback(
 //       ()=>{
