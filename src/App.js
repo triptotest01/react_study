@@ -1,3 +1,5 @@
+i
+// 스마트홈 예제 
 import React from "react";
 import SmartHome from "./SmartHome";
 import './App.css';
@@ -281,7 +283,7 @@ export default App;
 
 
 
-//  [UerList, ArrayAdd 구현 ]   - 1. useState 함수로 구현 
+// //  강의 [UerList, ArrayAdd 구현 ]   - 1. useState 함수로 구현 
 // // useMemo(), useCallback(), React.memo() 예제 
 // import React,{useState, useRef, useMemo, useCallback} from "react";
 // import UserList from './UserList';

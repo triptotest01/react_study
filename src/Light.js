@@ -2,19 +2,19 @@ import React from "react";
 
 
 function Light({room, on, toggle}){
-
+  console.log({room, on})
   return(
     <div>
       <button onClick={toggle}>
       {room}
-      {on}
+      {on? "💡" : "⬛"}
       </button>
     </div>
   )
 
 }
 
-export default Light
+export default React.memo(Light)
 
 
 
