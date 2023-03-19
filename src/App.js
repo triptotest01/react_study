@@ -1,130 +1,153 @@
-// 커스텀훅스 예제 
-//  [UerList, CreateUser구현  - 2. useReducer 함수로 구현 
+import React from "react";
+import SmartHome from "./SmartHome";
+import './App.css';
 
+function App(){
 
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-import UserList from './UserList';
-import ArrayAdd from './ArrayAdd';
-import useInputs from './useInputs'; 
+  return(
 
+    <div className="App-header">
+      <h3>My Smart Home Light</h3>
+      <SmartHome/>
 
-
-function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
-}
-
-
-// 2. useReducer() 의 두번째 파라미터 initialState : 기존코드 useState(초기값정의) 함수를 사용한 배열2개 : inputs 배열과 users배열의 초기값을 initialState 변수에 넣어둠 
-const initialState = {
-  // inputs:{ username: '', email: ''},
-  users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-           { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-           { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-         ]
-};
-
-// 3. useReducer() 의 첫번째 파라미터 reducer:  
-function reducer(state, action) {
-  switch (action.type) {
-      // case 'CHANGE_INPUT':
-      //   return { ...state,
-      //             inputs: { ...state.inputs, 
-      //                       [action.name]: action.value
-      //                     }
-      //   };
-      case 'CREATE_USER':
-        return { inputs: initialState.inputs,
-                 users: state.users.concat(action.user)   
-        };
-      case 'TOGGLE_USER':
-        return { ...state,
-                 users: state.users.map(user =>
-                      user.id === action.id ? { ...user, active: !user.active } : user
-                      )
-        };
-    case 'REMOVE_USER':
-      return {  ...state,
-                users: state.users.filter(user => user.id !== action.id)
-      };
-    default:
-      return state;
-  }
-}
-
-function App() {
-
-  const [state, dispatch] = useReducer(reducer, initialState); 
-
-  const [form, handleInputChange, reset] =useInputs({
-    username:'',
-    email:''
-  })
-
-  const {username, email} =form
-
-  // const { username, email } = state.inputs;
-  const { users } = state;
-
-
-  const nextId = useRef(4);
-
-
-  console.log(state);
-
-  // const handleInputChange  = useCallback(e => {
-  //   const { name, value } = e.target;
-  //   dispatch({
-  //     type: 'CHANGE_INPUT', 
-  //     name, 
-  //     value
-  //   });
-  // }, []);
-
-  const handleCreateClick  = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    reset();
-    nextId.current += 1;
-  }, [username, email, reset]);
-
-  const handleToggleClick  = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
-
-  const handleDeleteClick  = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
-
-  const count = useMemo(() => countActiveUsers(users), [users]);
-
-  return (
-    <>
-      <ArrayAdd
-        username={username}
-        email={email}
-        onInputChange={handleInputChange }
-        onCreateClick={handleCreateClick }
-      />
-      <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-      <div>활성사용자 수 : {count}</div>
-    </>
-  );
+    </div>
+  
+  )
 }
 
 export default App;
+
+
+
+
+
+// // 커스텀훅스 예제 
+// //  [UerList, CreateUser구현  - 2. useReducer 함수로 구현 
+
+
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import UserList from './UserList';
+// import ArrayAdd from './ArrayAdd';
+// import useInputs from './useInputs'; 
+
+
+
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
+
+
+// // 2. useReducer() 의 두번째 파라미터 initialState : 기존코드 useState(초기값정의) 함수를 사용한 배열2개 : inputs 배열과 users배열의 초기값을 initialState 변수에 넣어둠 
+// const initialState = {
+//   // inputs:{ username: '', email: ''},
+//   users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//          ]
+// };
+
+// // 3. useReducer() 의 첫번째 파라미터 reducer:  
+// function reducer(state, action) {
+//   switch (action.type) {
+//       // case 'CHANGE_INPUT':
+//       //   return { ...state,
+//       //             inputs: { ...state.inputs, 
+//       //                       [action.name]: action.value
+//       //                     }
+//       //   };
+//       case 'CREATE_USER':
+//         return { inputs: initialState.inputs,
+//                  users: state.users.concat(action.user)   
+//         };
+//       case 'TOGGLE_USER':
+//         return { ...state,
+//                  users: state.users.map(user =>
+//                       user.id === action.id ? { ...user, active: !user.active } : user
+//                       )
+//         };
+//     case 'REMOVE_USER':
+//       return {  ...state,
+//                 users: state.users.filter(user => user.id !== action.id)
+//       };
+//     default:
+//       return state;
+//   }
+// }
+
+// function App() {
+
+//   const [state, dispatch] = useReducer(reducer, initialState); 
+
+//   const [form, handleInputChange, reset] =useInputs({
+//     username:'',
+//     email:''
+//   })
+
+//   const {username, email} =form
+
+//   // const { username, email } = state.inputs;
+//   const { users } = state;
+
+
+//   const nextId = useRef(4);
+
+
+//   console.log(state);
+
+//   // const handleInputChange  = useCallback(e => {
+//   //   const { name, value } = e.target;
+//   //   dispatch({
+//   //     type: 'CHANGE_INPUT', 
+//   //     name, 
+//   //     value
+//   //   });
+//   // }, []);
+
+//   const handleCreateClick  = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
+//     reset();
+//     nextId.current += 1;
+//   }, [username, email, reset]);
+
+//   const handleToggleClick  = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const handleDeleteClick  = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const count = useMemo(() => countActiveUsers(users), [users]);
+
+//   return (
+//     <>
+//       <ArrayAdd
+//         username={username}
+//         email={email}
+//         onInputChange={handleInputChange }
+//         onCreateClick={handleCreateClick }
+//       />
+//       <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
+//     </>
+//   );
+// }
+
+// export default App;
 
 
 
